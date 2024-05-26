@@ -1,29 +1,41 @@
-export interface ICard {
+export type CardCategory = 'другое' | 'софт-скил' | 'дополнительное' | 'кнопка' | 'хард-скил';
+
+export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
+
+export interface ApiResponse {
+    items: IProductItem[];
+}
+
+export interface IProductItem {
     id: string;
-    description?: string;
+    description: string;
     image: string;
     title: string;
-    category: string;
+    category: CardCategory;
     price: number | null;
 }
 
-export interface IUser {
+export interface IAppState {
+    catalog: IProductItem[];
+    basket: IProductItem[];
+    preview: string | null;
+    order: IOrder | null;
+    loading: boolean;
+}
+
+export interface IOrderForm {
     paymentMethod: string;
-    deliveryAddress: string;
+    address: string;
     email: string;
     phone: string;
 }
 
-export interface ICardsData {
-    cards: ICard[];
-    preview: string | null;
+export interface IOrder extends IOrderForm {
+    items: string[];
+    totalPrice: number;
 }
 
-export interface IBasket {
-    cards: TBasketCard[];
+export interface IOrderResult {
+    id: string;
+    total: number;
 }
-
-
-export type TBasketCard = Pick<ICard, 'id' | 'title' | 'price'>;
-
-
