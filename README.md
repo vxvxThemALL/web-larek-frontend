@@ -309,13 +309,13 @@ export interface IOrder extends IOrderForm {
 - `card:toBasket` — товар выбран в корзину;
 - `basket:add` — добавление товара;
 - `basket:remove` — удаление товара;
-- `basket:change` — изменение корзины;
+- `basket:changed` — изменение корзины;
 - `basket:open` — открытие корзины;
 - `orderDelivery:open` — открытие формы с выбором оплаты;
-- `orderContacts:submit` — открытие формы с контактами;
-- `formErrors:change` — изменение;
+- `orderDelivery:submit` — отправка формы с выбором оплаты и открытие формы контактов;
+- `orderContacts:submit` — отправка формы контактов;
+- `formErrors:change` — процесс валидации формы;
 - `orderDelivery:reset` - сброс полей формы доставки;
 - `orderContacts:reset` — сброс полей формы контактов;
 - `modal:open` — открытие модального окна;
-- `modal:close` — закрытие модального окна;
-- `orderContacts:submit` — отправка формы.
+- `modal:close` — закрытие модального окна.
