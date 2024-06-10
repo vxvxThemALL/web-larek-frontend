@@ -90,27 +90,44 @@ export interface IAppState {
 }
 ```
 
-Интерфейс для заполнения данных форм для заказа продуктов.
+Интерфейс для заполнения данных формы с информацией о доставке.
 
 ```
-export interface IOrderForm {
-    paymentMethod: string;
-    address: string;
-    email: string;
-    phone: string;
+export interface IDelivery {
+	address: string;
+	payment: string;
+}
+```
+
+Интерфейс для заполнения данных формы с контактной информацией.
+
+```
+export interface IDelivery {
+	address: string;
+	payment: string;
 }
 ```
 
 Интерфейс заказа продуктов.
 
 ```
-export interface IOrder extends IOrderForm {
+export interface IOrder extends IDelivery, IContacts {
     items: string[];
-    totalPrice: number;
+    total: number;
 }
 ```
 
 ## Архитектура приложения
+
+Все цепочки действий в проекте подчиняются принципу построения приложения  MVP.
+В терминах MVP каждую цепочку действий в проекте можно описать следующей цепочкой:
+V --> P --> M --> P --> V
+То есть, цепочка начинается, когда происходит событие, привязанное к какому-то визуальному элементу на экране.
+Например, пользователь кликнул по какой-то карточке товара в галерее.
+а) Действие приложения перешло в класс Card (это класс отображения View).
+б) Обработчик события клика, привязанный в Card к элементу карточки товара в галерее, вызывает метод emit посредника (класса EventEmitter, Present), который вызывает обработчик события 'card:select', передавая ему данные - объект конкретного товара, по карточке которого кликнули.
+в) Обработчик card:select, получая данные, вызывает метод модели (класса AppState, Model) setPreview, который в свою очередь опять вызывает метод посредника emit, который вызывает обработчик события preview:change, и передаёт этому обработчику данные - объект конкретного товара.
+г) В свою очередь в обработчике  события preview:change выполнение приложения переходит в класс Modal (опять View), который с помощью своих методов  отрисовывает модальное окно конкретного товара, получая данные этого товара.
 
 Код приложения разделен на слои согласно парадигме MVP:
 - слой представления - отвечает за отображение данных на странице;
@@ -160,11 +177,11 @@ export interface IOrder extends IOrderForm {
 - catalog: IProductItem[]; - коллекция товаров на странице;
 - basket: IProductItem[]; - коллекция товаров в корзине;
 - order: IOrder = {
-    totalPrice: 0,
+    total: 0,
     items: [],
     phone: '',
     email: '',
-    paymentMethod: '',
+    payment: '',
     address: ''
 }; - данные пользователя для оформления заказа;
 - orderError: FormErrors = {} - ошибки валидации форм;
@@ -176,7 +193,7 @@ export interface IOrder extends IOrderForm {
 - removeFromBasket(product: IProductItem): void - удаление товара из корзины;
 - clearBasket(product: IProductItem): void - опустошение корзины;
 - updateBasket(): void - обновление корзины;
-- getTotalPrice(): number - получение общей суммы заказа;
+- gettotal(): number - получение общей суммы заказа;
 - setDeliveryField(field: keyof IOrderForm, value: string): void - установка данных формы доставки;
 - setContactField(field: keyof IOrderForm, value: string): void - установка данных формы контактной информации;
 - validateDeliveryForm(): void - валидация полей формы доставки;
@@ -230,7 +247,7 @@ export interface IOrder extends IOrderForm {
 Сеттеры класса:
 - set items(items: HTMLElement[]) - установка списка товаров;
 - set selected(items: string[]) - управление статусом кнопки подтверждения;
-- set totalPrice(price: number) - установка общей стоимости карточек.
+- set total(price: number) - установка общей стоимости карточек.
 
 #### Класс OrderDelivery
 Класс, реализующий форму со способом доставки.
@@ -243,7 +260,7 @@ export interface IOrder extends IOrderForm {
 
 Сеттеры класса:
 - set address(value: string) - установка адреса;
-- set paymentMethod(name: string) - установка способа оплаты;
+- set payment(name: string) - установка способа оплаты;
 - set valid(value: boolean) - управление статусом кнопки подтверждения.
 
 #### Класс OrderContacts

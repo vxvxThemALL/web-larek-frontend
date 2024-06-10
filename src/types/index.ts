@@ -1,4 +1,4 @@
-
+export type CardCategory = 'другое' | 'софт-скил' | 'дополнительное' | 'кнопка' | 'хард-скил';
 export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 export interface ApiResponse {
@@ -10,7 +10,7 @@ export interface IProductItem {
     description: string;
     image: string;
     title: string;
-    category: string;
+    category: CardCategory;
     price: number | null;
 }
 
@@ -24,7 +24,7 @@ export interface IAppState {
 
 export interface IDelivery {
 	address: string;
-	paymentMethod: string;
+	payment: string;
 }
 
 export interface IContacts {
@@ -34,7 +34,7 @@ export interface IContacts {
 
 export interface IOrder extends IDelivery, IContacts {
     items: string[];
-    totalPrice: number;
+    total: number;
 }
 
 export interface IOrderResult {

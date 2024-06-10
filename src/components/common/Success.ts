@@ -3,7 +3,7 @@ import { Component } from "../base/Component";
 
 
 interface ISuccess {
-    totalPrice: number;
+    total: number;
 }
 
 interface ISuccessActions {

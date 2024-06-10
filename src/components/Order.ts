@@ -14,8 +14,8 @@ export class OrderDelivery extends Form<IOrder> {
 
 		this._paymentMethod.forEach((button) => {
 			button.addEventListener('click', () => {
-				this.paymentMethod = button.name;
-				this.onInputChange(`paymentMethod`, button.name);
+				this.payment = button.name;
+				this.onInputChange(`payment`, button.name);
 			});
 		});
 	}
@@ -25,7 +25,7 @@ export class OrderDelivery extends Form<IOrder> {
 			value;
 	}
 
-	set paymentMethod(name: string) {
+	set payment(name: string) {
 		this._paymentMethod.forEach((button) => {
 			this.toggleClass(button, 'button_alt-active', button.name === name);
 		});

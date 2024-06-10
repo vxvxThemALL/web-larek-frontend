@@ -9,11 +9,11 @@ export class AppState extends Model<IAppState> {
     catalog: IProductItem[];
     basket: IProductItem[] = [];
     order: IOrder = {
-        totalPrice: 0,
+        total: 0,
         items: [],
         phone: '',
         email: '',
-        paymentMethod: '',
+        payment: '',
         address: ''
     };
 
@@ -49,7 +49,7 @@ export class AppState extends Model<IAppState> {
 		});
     }
 
-    getTotalPrice(): number {
+    gettotal(): number {
         return this.basket.reduce((acc, item) => acc + item.price, 0);
     }
 
@@ -69,8 +69,8 @@ export class AppState extends Model<IAppState> {
 
     validateDeliveryForm() {
         const errors: typeof this.orderError = {};
-		if (!this.order.paymentMethod) {
-			errors.paymentMethod = 'Необходимо указать способ оплаты';
+		if (!this.order.payment) {
+			errors.payment = 'Необходимо указать способ оплаты';
 		}
 		if (!this.order.address) {
 			errors.address = 'Необходимо указать адрес доставки';
@@ -95,7 +95,7 @@ export class AppState extends Model<IAppState> {
 
     deliveryFormReset(): void {
         this.order.address = '';
-		this.order.paymentMethod = '';
+		this.order.payment = '';
     }
 
     contactsFormReset(): void {
