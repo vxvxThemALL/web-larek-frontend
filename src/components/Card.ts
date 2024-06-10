@@ -1,4 +1,5 @@
-import { CardCategory, IProductItem } from "../types";
+import { IProductItem } from "../types";
+import { categorySettings } from "../utils/constants";
 import { ensureElement } from "../utils/utils";
 import { Component } from "./base/Component";
 
@@ -8,6 +9,7 @@ interface ICardActions {
 
 interface ICard extends IProductItem {
     cardIndex?: string;
+	buttonText?: string;
 }
 
 export class Card extends Component<ICard> {
@@ -24,6 +26,7 @@ export class Card extends Component<ICard> {
 
         this._cardIndex = container.querySelector('.basket__item-index');
         this._description = container.querySelector('.card__text');
+		this._image = container.querySelector('.card__image');
         this._title = ensureElement<HTMLElement>('.card__title', container);
 		this._category = container.querySelector('.card__category');
 		this._price = ensureElement<HTMLElement>('.card__price', container);
@@ -69,8 +72,9 @@ export class Card extends Component<ICard> {
 		this.setText(this._description, value);
 	}
 
-	set category(value: CardCategory) {
+	set category(value: string) {
 		this.setText(this._category, value);
+		this._category.classList.add(categorySettings[value]);
 	}
 
 	get category(): string {
