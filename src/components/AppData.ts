@@ -1,42 +1,42 @@
-import { FormErrors, IAppState, IContacts, IDelivery, IOrder, IProductItem } from "../types";
+import { FormErrors, IAppState, IOrderForms, IOrder, IProduct } from "../types";
 import { Model } from "./base/Model";
 
 export type CatalogChangeEvent = {
-    catalog: IProductItem[]
+    catalog: IProduct[]
 };
 
 export class AppState extends Model<IAppState> {
-    catalog: IProductItem[];
-    basket: IProductItem[] = [];
+    catalog: IProduct[];
+    basket: IProduct[] = [];
     order: IOrder = {
-        total: 0,
         items: [],
-        phone: '',
-        email: '',
         payment: '',
-        address: ''
+        address: '',
+        email: '',
+        phone: '',
+        total: null,
     };
 
     orderError: FormErrors = {};
     preview: string | null;
 
-    setCatalog(products: IProductItem[]): void {
-        this.catalog = products;
+    setCatalog(productsList: IProduct[]): void {
+        this.catalog = productsList;
 		this.emitChanges('items:changed', { catalog: this.catalog });
     }
 
-    addToBasket(product: IProductItem): void {
+    setPreview(product: IProduct): void {
+        this.preview = product.id;
+		this.emitChanges('preview:changed', product);
+    }
+
+    addToBasket(product: IProduct): void {
         this.basket.push(product);
 		this.updateBasket();
     }
 
-    removeFromBasket(product: IProductItem): void {
+    removeFromBasket(product: IProduct): void {
         this.basket = this.basket.filter((item) => item.id !== product.id);
-		this.updateBasket();
-    }
-
-    clearBasket(): void {
-        this.basket = [];
 		this.updateBasket();
     }
 
@@ -49,21 +49,19 @@ export class AppState extends Model<IAppState> {
 		});
     }
 
-    gettotal(): number {
+    clearBasket(): void {
+        this.basket = [];
+        this.updateBasket();
+    }
+
+    getTotal(): number {
         return this.basket.reduce((acc, item) => acc + item.price, 0);
     }
 
-    setDeliveryField(field: keyof IDelivery, value: string): void {
+    setDeliveryField(field: keyof IOrderForms, value: string): void {
         this.order[field] = value;
         
 		if (this.validateDeliveryForm()) {
-		}
-    }
-
-    setContactsField(field: keyof IContacts, value: string): void {
-        this.order[field] = value;
-
-		if (this.validateContactsForm()) {
 		}
     }
 
@@ -80,6 +78,18 @@ export class AppState extends Model<IAppState> {
 		return Object.keys(errors).length === 0;
     }
 
+    deliveryFormReset(): void {
+        this.order.address = '';
+		this.order.payment = '';
+    }
+
+    setContactsField(field: keyof IOrderForms, value: string): void {
+        this.order[field] = value;
+
+		if (this.validateContactsForm()) {
+		}
+    }
+
     validateContactsForm() {
         const errors: typeof this.orderError = {};
 		if (!this.order.email) {
@@ -93,19 +103,9 @@ export class AppState extends Model<IAppState> {
 		return Object.keys(errors).length === 0;
     }
 
-    deliveryFormReset(): void {
-        this.order.address = '';
-		this.order.payment = '';
-    }
-
     contactsFormReset(): void {
         this.order.email = '';
 		this.order.phone = '';
-    }
-
-    setPreview(product: IProductItem): void {
-        this.preview = product.id;
-		this.emitChanges('preview:changed', product);
     }
 }
 

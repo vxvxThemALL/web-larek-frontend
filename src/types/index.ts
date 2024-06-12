@@ -1,11 +1,15 @@
 export type CardCategory = 'другое' | 'софт-скил' | 'дополнительное' | 'кнопка' | 'хард-скил';
+export type CategorySelection = {
+    [Key in CardCategory]: string;
+  };
+
 export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 export interface ApiResponse {
-    items: IProductItem[];
+    items: IProduct[];
 }
 
-export interface IProductItem {
+export interface IProduct {
     id: string;
     description: string;
     image: string;
@@ -15,24 +19,20 @@ export interface IProductItem {
 }
 
 export interface IAppState {
-    catalog: IProductItem[];
-    basket: IProductItem[];
+    catalog: IProduct[];
+    basket: IProduct[];
     preview: string | null;
     order: IOrder | null;
-    loading: boolean;
 }
 
-export interface IDelivery {
+export interface IOrderForms {
 	address: string;
 	payment: string;
-}
-
-export interface IContacts {
 	phone: string;
 	email: string;
 }
 
-export interface IOrder extends IDelivery, IContacts {
+export interface IOrder extends IOrderForms {
     items: string[];
     total: number;
 }

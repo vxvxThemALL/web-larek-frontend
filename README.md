@@ -54,7 +54,7 @@ export type CardCategory = 'другое' | 'софт-скил' | 'дополн�
 
 ```
 export interface ApiResponse {
-    items: IProductItem[];
+    items: IProduct[];
 }
 
 ```
@@ -68,7 +68,7 @@ export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
 Карточка товара
 
 ```
-export interface IProductItem {
+export interface IProduct {
     id: string;
     description: string;
     image: string;
@@ -82,27 +82,19 @@ export interface IProductItem {
 
 ```
 export interface IAppState {
-    catalog: IProductItem[];
-    basket: IProductItem[];
+    catalog: IProduct[];
+    basket: IProduct[];
     preview: string | null;
     order: IOrder | null;
-    loading: boolean;
 }
 ```
 
-Интерфейс для заполнения данных формы с информацией о доставке.
+Интерфейс для заполнения полей данных форм.
 
 ```
-export interface IDelivery {
+export interface IOrderForms {
 	address: string;
 	payment: string;
-}
-```
-
-Интерфейс для заполнения данных формы с контактной информацией.
-
-```
-export interface IDelivery {
 	address: string;
 	payment: string;
 }
@@ -111,7 +103,7 @@ export interface IDelivery {
 Интерфейс заказа продуктов.
 
 ```
-export interface IOrder extends IDelivery, IContacts {
+export interface IOrder extends IOrderForms {
     items: string[];
     total: number;
 }
@@ -174,8 +166,8 @@ V --> P --> M --> P --> V
 #### Класс AppState
 Класс, отвечающий за полный функционал приложения.
 В полях класса хранятся следующие данные:
-- catalog: IProductItem[]; - коллекция товаров на странице;
-- basket: IProductItem[]; - коллекция товаров в корзине;
+- catalog: IProduct[]; - коллекция товаров на странице;
+- basket: IProduct[]; - коллекция товаров в корзине;
 - order: IOrder = {
     total: 0,
     items: [],
@@ -188,10 +180,10 @@ V --> P --> M --> P --> V
 - preview: string | null; - отображение товара по id.
 
 Методы класса:
-- setCatalog(products: IProductItem[]): void - установка коллекции товаров на странице;
-- addToBasket(product: IProductItem): void - добавление товара в корзину;
-- removeFromBasket(product: IProductItem): void - удаление товара из корзины;
-- clearBasket(product: IProductItem): void - опустошение корзины;
+- setCatalog(products: IProduct[]): void - установка коллекции товаров на странице;
+- addToBasket(product: IProduct): void - добавление товара в корзину;
+- removeFromBasket(product: IProduct): void - удаление товара из корзины;
+- clearBasket(product: IProduct): void - опустошение корзины;
 - updateBasket(): void - обновление корзины;
 - gettotal(): number - получение общей суммы заказа;
 - setDeliveryField(field: keyof IOrderForm, value: string): void - установка данных формы доставки;
@@ -200,7 +192,7 @@ V --> P --> M --> P --> V
 - deliveryFormReset(): void - валидация полей формы контактной информации;
 - deliveryFormReset(): void - сброс полей формы доставки;
 - contactFormReset(): void - сброс полей формы контактной информации;
-- setPreview(product: IProductItem): void - превью товара.
+- setPreview(product: IProduct): void - превью товара.
 
 ### Слой отображения
 
