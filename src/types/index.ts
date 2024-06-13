@@ -23,6 +23,7 @@ export interface IAppState {
     basket: IProduct[];
     preview: string | null;
     order: IOrder | null;
+    cardState: { [productId: string]: boolean};
 }
 
 export interface IOrderForms {

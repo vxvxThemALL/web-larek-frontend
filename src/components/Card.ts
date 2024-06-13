@@ -20,6 +20,7 @@ export class Card extends Component<ICard> {
     protected _button?: HTMLButtonElement;
     protected _price: HTMLElement;
     protected _cardIndex?: HTMLElement;
+	protected _buttonText: string;
     
     constructor(container: HTMLElement, actions: ICardActions) {
         super(container)
@@ -62,7 +63,7 @@ export class Card extends Component<ICard> {
 		this.setImage(this._image, value, this.title);
 	}
 
-	set button(value: string) {
+	set buttonText(value: string) {
 		if (this._button) {
 			this._button.textContent = value;
 		}

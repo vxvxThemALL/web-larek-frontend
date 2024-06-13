@@ -3,16 +3,15 @@ import { ensureAllElements } from "../utils/utils";
 import { IEvents } from "./base/events";
 import { Form } from "./common/Form";
 
-
 export class OrderDelivery extends Form<IOrder> {
-	protected _paymentMethod: HTMLButtonElement[];
+	protected _payment: HTMLButtonElement[];
 
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);
 
-		this._paymentMethod = ensureAllElements(`.button_alt`, this.container);
+		this._payment = ensureAllElements(`.button_alt`, this.container);
 
-		this._paymentMethod.forEach((button) => {
+		this._payment.forEach((button) => {
 			button.addEventListener('click', () => {
 				this.payment = button.name;
 				this.onInputChange(`payment`, button.name);
@@ -21,13 +20,13 @@ export class OrderDelivery extends Form<IOrder> {
 	}
 
 	set payment(name: string) {
-		this._paymentMethod.forEach((button) => {
+		this._payment.forEach((button) => {
 			this.toggleClass(button, 'button_alt-active', button.name === name);
 		});
 	}
 
 	paymentMethodReset(): void {
-		this._paymentMethod.forEach((button) => {
+		this._payment.forEach((button) => {
 			this.toggleClass(button, 'button_alt-active', false);
 		});
 	}

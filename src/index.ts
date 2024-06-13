@@ -76,12 +76,14 @@ events.on('card:select', (product: IProduct) => {
 // Открытие карточки в модальном окне
 events.on('card:select', (product: IProduct) => {
   page.locked = true;
+  let isInBasket = appData.basket.includes(product)
+  console.log(isInBasket);
   const card = new Card(cloneTemplate(templates.cardPreview), {
     onClick: () => {
       events.emit('card:toBasket', product);
-      card.button = appData.basket.includes(product)
+      card.buttonText = appData.basket.includes(product)
         ? 'Удалить из корзины'
-        : 'Добавить в корзину';
+        : 'В корзину';
     },
   });
   modal.render({
@@ -92,7 +94,7 @@ events.on('card:select', (product: IProduct) => {
       category: product.category,
       description: product.description,
       price: product.price,
-      buttonText: 'Добавить в корзину',
+      buttonText: isInBasket ? `Удалить из корзины` : `В корзину`,
     }),
   });
 });
@@ -141,11 +143,12 @@ events.on('basket:change', () => {
 
 // Управление оформлением заказа
 events.on('orderDelivery:open', () => {
+  let isValid = appData.order.payment === `` || appData.order.payment === '' ? false : true;
   modal.render({
     content: components.orderDelivery.render({
       payment: '',
       address: '',
-      valid: false,
+      valid: isValid,
       errors: [],
     }),
   });
