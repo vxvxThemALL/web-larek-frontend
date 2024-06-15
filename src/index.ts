@@ -41,7 +41,6 @@ const components = {
   success: new Success(cloneTemplate(templates.success), {
     onClick() {
       modal.close();
-      appData.paymentReset();
     },
   }),
 };
@@ -209,6 +208,7 @@ events.on('contacts:submit', () => {
   api.placeOrder(orderDetails)
     .then(res => {
       appData.clearBasket();
+      appData.orderReset();
       modal.render({
         content: components.success.render({ total: res.total }),
       });

@@ -5,6 +5,7 @@ import { Form } from "./common/Form";
 
 export class OrderDelivery extends Form<IOrder> {
 	protected _payment: HTMLButtonElement[];
+	protected _address: HTMLInputElement[]
 
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);

@@ -78,10 +78,6 @@ export class AppState extends Model<IAppState> {
 		return Object.keys(errors).length === 0;
     }
 
-    paymentReset(): void {
-		this.order.payment = '';
-    }
-
     setContactsField(field: keyof IOrderForms, value: string): void {
         this.order[field] = value;
 
@@ -100,6 +96,13 @@ export class AppState extends Model<IAppState> {
 		this.orderError = errors;
 		this.events.emit('orderContactsFormErrors:change', this.orderError);
 		return Object.keys(errors).length === 0;
+    }
+
+    orderReset(): void {
+		this.order.payment = '';
+        this.order.address = '';
+        this.order.phone = '';
+        this.order.email ='';
     }
 }
 
