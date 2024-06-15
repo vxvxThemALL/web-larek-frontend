@@ -30,10 +30,19 @@ export class OrderDelivery extends Form<IOrder> {
 			this.toggleClass(button, 'button_alt-active', false);
 		});
 	}
+
+	clearInputs(): void {
+		(this.container.elements.namedItem('address') as HTMLInputElement).value = ''
+	}
 }
 
 export class OrderContacts extends Form<IOrder> {
 	constructor(container: HTMLFormElement, events: IEvents) {
 		super(container, events);
+	}
+
+	clearInputs(): void {
+		(this.container.elements.namedItem('phone') as HTMLInputElement).value = '';
+		(this.container.elements.namedItem('email') as HTMLInputElement).value = '';
 	}
 }

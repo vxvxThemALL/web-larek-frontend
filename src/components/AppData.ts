@@ -102,7 +102,7 @@ export class AppState extends Model<IAppState> {
 		this.order.payment = '';
         this.order.address = '';
         this.order.phone = '';
-        this.order.email ='';
+        this.order.email = '';
     }
 }
 

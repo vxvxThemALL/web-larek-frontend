@@ -208,6 +208,8 @@ events.on('contacts:submit', () => {
     .then(res => {
       appData.clearBasket();
       appData.orderReset();
+      components.orderDelivery.clearInputs();
+      components.orderContacts.clearInputs();
       modal.render({
         content: components.success.render({ total: res.total }),
       });
