@@ -78,8 +78,7 @@ export class AppState extends Model<IAppState> {
 		return Object.keys(errors).length === 0;
     }
 
-    deliveryFormReset(): void {
-        this.order.address = '';
+    paymentReset(): void {
 		this.order.payment = '';
     }
 
@@ -101,11 +100,6 @@ export class AppState extends Model<IAppState> {
 		this.orderError = errors;
 		this.events.emit('orderContactsFormErrors:change', this.orderError);
 		return Object.keys(errors).length === 0;
-    }
-
-    contactsFormReset(): void {
-        this.order.email = '';
-		this.order.phone = '';
     }
 }
 

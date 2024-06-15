@@ -25,7 +25,7 @@ export class OrderDelivery extends Form<IOrder> {
 		});
 	}
 
-	paymentMethodReset(): void {
+	paymentReset(): void {
 		this._payment.forEach((button) => {
 			this.toggleClass(button, 'button_alt-active', false);
 		});

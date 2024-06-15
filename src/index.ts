@@ -41,8 +41,7 @@ const components = {
   success: new Success(cloneTemplate(templates.success), {
     onClick() {
       modal.close();
-      appData.deliveryFormReset();
-      appData.contactsFormReset();
+      appData.paymentReset();
     },
   }),
 };
@@ -143,11 +142,11 @@ events.on('basket:change', () => {
 
 // Управление оформлением заказа
 events.on('orderDelivery:open', () => {
-  let isValid = appData.order.payment === `` || appData.order.payment === '' ? false : true;
+  let isValid = appData.order.payment === `` || appData.order.address  === `` ? false : true;
   modal.render({
     content: components.orderDelivery.render({
-      payment: '',
-      address: '',
+      payment: appData.order.payment,
+      address: appData.order.address,
       valid: isValid,
       errors: [],
     }),
@@ -155,11 +154,12 @@ events.on('orderDelivery:open', () => {
 });
 
 events.on('order:submit', () => {
+  let isValid = appData.order.phone === `` || appData.order.email  === `` ? false : true;
   modal.render({
     content: components.orderContacts.render({
-        phone: '',
-      email: '',
-      valid: false,
+      phone: appData.order.phone,
+      email: appData.order.email,
+      valid: isValid,
       errors: [],
     }),
   });
