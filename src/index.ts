@@ -75,7 +75,6 @@ events.on('card:select', (product: IProduct) => {
 events.on('card:select', (product: IProduct) => {
   page.locked = true;
   let isInBasket = appData.basket.includes(product)
-  console.log(isInBasket);
   const card = new Card(cloneTemplate(templates.cardPreview), {
     onClick: () => {
       events.emit('card:toBasket', product);
